@@ -1,0 +1,358 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "title": "Bird API",
+    "description": "API para ornitólogos registrarem avistamentos de pássaros",
+    "version": "1.0.0",
+    "x-logo": {
+      "url": "https://s1.static.brasilescola.uol.com.br/be/conteudo/images/arara-azul.jpg"
+    }
+  },
+  "paths": {
+    "/posts": {
+      "tags": ["Postagem"],
+      "post": {
+        "tags": ["Postagem"],
+        "summary": "Criar postagem",
+        "description": "Método responsável por criar uma nova entidade de post",
+        "requestBody": {
+          "description": "Dados necessários para cadastro de uma postagem",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/RequestPost"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Postagem criada com sucesso",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ResponsePost"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Dados requeridos não encontrados no corpo da requisição",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error400Response"
+                }
+              }
+            }
+          }
+        }
+      },
+      "get": {
+        "tags": ["Postagem"],
+        "summary": "Buscar todas as postagens",
+        "description": "Buscar todas as postagens",
+        "responses": {
+          "200": {
+            "description": "Postagens retornadas com sucesso",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/ResponsePost"
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "put": {
+        "tags": ["Postagem"],
+        "summary": "Atualizar dados da postagem",
+        "description": "Atualizar dados da postagem",
+        "requestBody": {
+          "description": "Dados necessários para atualização de uma postagem",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdatePostRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Postagem atualizada com sucesso",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/countResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "ID não encontrado no corpo da requisição",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error400Response"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Postagem não encontrada",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error404Response"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/post/{id}": {
+      "get": {
+        "tags": ["Postagem"],
+        "summary": "Buscar postagem por ID",
+        "description": "Busca de uma postagem por ID",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "ID da postagem",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ResponsePost"
+                }
+              }
+            }
+          },
+          "404": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error404Response"
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": ["Postagem"],
+        "summary": "Deletar postagem por ID",
+        "description": "Deletar postagem por ID",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "ID da postagem",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Postagem deletada com sucesso",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/countResponse"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Postagem não encontrada",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error404Response"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "RequestPost": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string",
+            "description": "Nome do pássaro",
+            "example": "Arara Azul"
+          },
+          "scientificName": {
+            "type": "string",
+            "description": "Nome científico do pássaro",
+            "example": "Anodorhynchus hyacinthinus"
+          },
+          "sighting": {
+            "type": "string",
+            "description": "Local de avistamento do pássaro",
+            "example": "Amazonas"
+          },
+          "sightingDate": {
+            "type": "string",
+            "description": "Data de avistamento do pássaro",
+            "example": "2022-01-18"
+          },
+          "sightingHour": {
+            "type": "string",
+            "description": "Horário de avistamento do pássaro",
+            "example": "15:15"
+          },
+          "observation": {
+            "type": "string",
+            "description": "Observações sobre o avistamento e as características do pássaro",
+            "example": "Estava em uma árvore e tinha pena azul"
+          },
+          "img": {
+            "type": "string",
+            "description": "URL da imagem do pássaro",
+            "example": "https://s1.static.brasilescola.uol.com.br/be/conteudo/images/arara-azul.jpg"
+          }
+        },
+        "required": ["name", "sighting", "sightingDate", "sightingHour", "img"]
+      },
+      "ResponsePost": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "description": "ID da postagem criada",
+            "example": "635c403f678ed73de678573d"
+          },
+          "name": {
+            "type": "string",
+            "description": "Nome do pássaro",
+            "example": "Arara Azul"
+          },
+          "scientificName": {
+            "type": "string",
+            "description": "Nome científico do pássaro",
+            "example": "Anodorhynchus hyacinthinus"
+          },
+          "sighting": {
+            "type": "string",
+            "description": "Local de avistamento do pássaro",
+            "example": "Amazonas"
+          },
+          "sightingDate": {
+            "type": "string",
+            "description": "Data de avistamento do pássaro",
+            "example": "2022-01-18"
+          },
+          "sightingHour": {
+            "type": "string",
+            "description": "Horário de avistamento do pássaro",
+            "example": "15:15"
+          },
+          "observation": {
+            "type": "string",
+            "description": "Observações sobre o avistamento e as características do pássaro",
+            "example": "Estava em uma árvore e tinha pena azul"
+          },
+          "img": {
+            "type": "string",
+            "description": "URL da imagem do pássaro",
+            "example": "https://s1.static.brasilescola.uol.com.br/be/conteudo/images/arara-azul.jpg"
+          }
+        }
+      },
+      "UpdatePostRequest": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "description": "ID da postagem criada",
+            "example": "635c403f678ed73de678573d",
+            "required": true
+          },
+          "name": {
+            "type": "string",
+            "description": "Nome do pássaro",
+            "example": "Arara Azul"
+          },
+          "scientificName": {
+            "type": "string",
+            "description": "Nome científico do pássaro",
+            "example": "Anodorhynchus hyacinthinus"
+          },
+          "sighting": {
+            "type": "string",
+            "description": "Local de avistamento do pássaro",
+            "example": "Amazonas"
+          },
+          "sightingDate": {
+            "type": "string",
+            "description": "Data de avistamento do pássaro",
+            "example": "2022-01-18"
+          },
+          "sightingHour": {
+            "type": "string",
+            "description": "Horário de avistamento do pássaro",
+            "example": "15:15"
+          },
+          "observation": {
+            "type": "string",
+            "description": "Observações sobre o avistamento e as características do pássaro",
+            "example": "Estava em uma árvore e tinha pena azul"
+          },
+          "img": {
+            "type": "string",
+            "description": "URL da imagem do pássaro",
+            "example": "https://s1.static.brasilescola.uol.com.br/be/conteudo/images/arara-azul.jpg"
+          }
+        }
+      },
+      "countResponse": {
+        "type": "object",
+        "properties": {
+          "count": {
+            "type": "number",
+            "example": 1
+          }
+        },
+        "example": "1"
+      },
+      "Error400Response": {
+        "type": "object",
+        "properties": {
+          "message": {
+            "type": "string",
+            "description": "Falha na requisição",
+            "example": "Dados incompleto ou inválido"
+          }
+        }
+      },
+      "Error404Response": {
+        "type": "object",
+        "properties": {
+          "message": {
+            "type": "string",
+            "description": "Falha na requisição",
+            "example": "Postagem não encontrada"
+          }
+        }
+      }
+    }
+  }
+}
