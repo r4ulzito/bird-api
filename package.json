@@ -6,7 +6,7 @@
   "main": "index.js",
   "scripts": {
     "test": "node --experimental-vm-modules --no-warnings node_modules/jest/bin/jest --runInBand ",
-    "start": "ts-node dist/src/server.js",
+    "start": "node dist/src/server.js",
     "build": "tsc -p ./tsconfig.json",
     "watch": "nodemon src/server.ts"
   },
