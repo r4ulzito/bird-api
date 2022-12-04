@@ -11,6 +11,8 @@ const swaggerJson =
     ? "../../swagger.json"
     : "../swagger.json";
 
+console.log(process.env.NODE_ENV);
+
 const swaggerDocument = importer(swaggerJson);
 
 export class App {
