@@ -3,15 +3,15 @@ import cors from "cors";
 import { routes } from "./routers/routes.js";
 import swaggerUi from "swagger-ui-express";
 
-// import { createRequire } from "node:module";
-// const importer = createRequire(import.meta.url);
+import { createRequire } from "node:module";
+const importer = createRequire(import.meta.url);
 
-// const swaggerJson =
-//   process.env.NODE_ENV === "production"
-//     ? "../../swagger.json"
-//     : "../swagger.json";
+const swaggerJson =
+  process.env.NODE_ENV === "production"
+    ? "../../swagger.json"
+    : "../swagger.json";
 
-const swaggerDocument = "";
+const swaggerDocument = importer(swaggerJson);
 
 export class App {
   express: express.Express;
@@ -42,8 +42,8 @@ export class App {
   documentation() {
     this.express.use(
       "/api-docs",
-      swaggerUi.serve
-      // swaggerUi.setup(swaggerDocument)
+      swaggerUi.serve,
+      swaggerUi.setup(swaggerDocument)
     );
 
     this.express.get("/swaggerJson", (_, res: Response) => {
