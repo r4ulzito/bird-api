@@ -2,7 +2,12 @@ import express, { Response } from "express";
 import cors from "cors";
 import { routes } from "./routers/routes.js";
 import swaggerUi from "swagger-ui-express";
-import swaggerDocument from "../swagger.json" assert { type: "json" };
+
+import { createRequire } from "node:module";
+const importer = createRequire(import.meta.url);
+
+const swaggerDocument = importer("../swagger.json");
+
 export class App {
   express: express.Express;
   port = process.env.PORT ?? "3000";
