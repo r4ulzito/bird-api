@@ -6,7 +6,12 @@ import swaggerUi from "swagger-ui-express";
 import { createRequire } from "node:module";
 const importer = createRequire(import.meta.url);
 
-const swaggerDocument = importer("../swagger.json");
+const swaggerJson =
+  process.env.NODE_ENV === "production"
+    ? "../../swagger.json"
+    : "../swagger.json";
+
+const swaggerDocument = importer(swaggerJson);
 
 export class App {
   express: express.Express;
