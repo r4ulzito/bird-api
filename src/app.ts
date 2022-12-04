@@ -7,7 +7,7 @@ import { createRequire } from "node:module";
 const importer = createRequire(import.meta.url);
 
 const swaggerJson =
-  process.env.NODE_ENV_SWAGGER === "production"
+  process.env.NODE_ENV === "production"
     ? "../../swagger.json"
     : "../swagger.json";
 
